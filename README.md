@@ -2,7 +2,7 @@
 
 App de registro e acompanhamento de treinos de musculação (hipertrofia): ficha editável, registro série a série, cronômetro de descanso, histórico, evolução, biblioteca de exercícios, backup e sincronização opcional (Supabase). HTML + CSS + JavaScript puro, **sem dependências**, funciona offline e é instalável no Android.
 
-## Experiência integrada (1.1.1)
+## Experiência integrada (1.2.1)
 - Resumo semanal com dias concluídos e acesso direto ao treino planejado.
 - Painel de evolução com filtros por 30 dias, 90 dias ou todo o histórico, volume semanal, consistência, séries por grupo muscular e exercícios em destaque.
 - Análises calculadas localmente, sem carregar Python ou dados de treino para um serviço externo.

@@ -12,7 +12,7 @@
 - **Acessibilidade (alvo WCAG 2.2 AA):** contraste ≥ 4.5:1; alvos ≥ 48 px; foco visível; `lang=pt-BR`; skip link; `<dialog>` nativo com foco preso/Esc; rótulos em todos os campos; estados não dependem só de cor (▲/▼, textos); gráfico com `role=img` + tabela alternativa; `aria-live` só no fim do descanso; `prefers-reduced-motion`; áreas seguras (notch).
 - **Mobile Android first:** layout de coluna única, navegação inferior de 5 itens, inputs ≥16 px (sem zoom), PWA instalável com ícone *maskable*.
 - **Instalação:** botão “Instalar” no cabeçalho; usa o prompt do navegador quando disponível e orienta sobre HTTPS/localhost ou instalação manual nos demais casos.
-- **Identidade:** escuro "oficina" (#0E0F12) + verde elétrico (#76E06F) para ações; logotipo "F" simples.
+- **Identidade:** escuro "oficina" (#0E0F12) + laranja brasa (#FF6B1A) para ações; logotipo "F" simples.
 - **Tom:** profissional; recomendações sempre rotuladas como sugestão.
 - **Visão semanal:** resumo de treinos concluídos com acesso direto a cada dia planejado.
 - **Evolução interativa:** filtros de 30 dias, 90 dias e histórico completo; alternância entre volume e frequência nas últimas oito semanas; grupos por séries concluídas e exercícios por volume (ou séries quando não há carga registrada).

@@ -12,7 +12,7 @@
  * AO PUBLICAR UMA NOVA VERSÃO: altere VERSION (e confira a lista SHELL;
  * `node scripts/check-precache.mjs` valida que todos os arquivos existem).
  */
-const VERSION = '1.1.1';
+const VERSION = '1.2.1';
 const CACHE = `forja-shell-${VERSION}`;
 
 const SHELL = [

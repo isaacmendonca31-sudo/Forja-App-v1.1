@@ -263,6 +263,9 @@ export function render({ params, navigate, rerender }) {
         s.done = true;
         item.doneAt = Date.now();
         w.value = s.weight; r.value = s.reps;
+        btn.classList.remove('just-done');
+        requestAnimationFrame(() => btn.classList.add('just-done'));
+        if (getSettings().vibrate) navigator.vibrate?.(12);
 
         const { total, done } = totals();
         if (done >= total) { // esta era a última série pendente do treino
@@ -432,12 +435,29 @@ export function render({ params, navigate, rerender }) {
       return;
     }
     const { total, done } = totals();
-    const ok = await confirmDialog({
-      title: 'Finalizar treino?',
-      message: done < total
-        ? `${done} séries registradas. As ${total - done} não feitas serão ignoradas.`
-        : `${done} séries registradas.`,
-      confirmLabel: 'Finalizar',
+    const volume = items.reduce((sum, it) => sum + it.sets.reduce((v, set) => v + set.weight * set.reps, 0), 0);
+    const elapsed = Math.max(1, Math.round((Date.now() - draft.startedAt) / 60000));
+    const records = items.filter((it) => {
+      const previous = exerciseHistory(sessions, it.exerciseId).flatMap((entry) => entry.sets).reduce((max, set) => Math.max(max, Number(set.weight) || 0), 0);
+      return Math.max(...it.sets.map((set) => set.weight), 0) > previous;
+    });
+    const ok = await new Promise((resolve) => {
+      let confirmed = false;
+      modal({
+        title: 'Resumo do treino',
+        body: h('div', { class: 'stack' },
+          h('p', {}, `${done} séries registradas${done < total ? ` · ${total - done} não feitas serão ignoradas` : ''}.`),
+          h('div', { class: 'stat-grid' },
+            h('div', { class: 'stat' }, h('div', { class: 'v' }, `${elapsed} min`), h('div', { class: 'k' }, 'duração')),
+            h('div', { class: 'stat' }, h('div', { class: 'v' }, `${items.length}`), h('div', { class: 'k' }, 'exercícios')),
+            h('div', { class: 'stat' }, h('div', { class: 'v' }, `${fmtNum(volume, 0)} kg`), h('div', { class: 'k' }, 'volume total'))),
+          records.length ? h('div', { class: 'banner ok record-banner' }, h('strong', {}, 'Novo recorde de carga'), h('span', {}, records.map((it) => it.name).join(', '))) : null),
+        actions: [
+          { label: 'Continuar treino', kind: 'ghost' },
+          { label: 'Salvar treino', kind: 'primary', onClick: () => { confirmed = true; } },
+        ],
+        onClose: () => resolve(confirmed),
+      });
     });
     if (!ok) return;
     const session = addSession({

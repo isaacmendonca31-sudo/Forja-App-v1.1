@@ -12,6 +12,7 @@ import { getSettings } from './store.js';
 let root = null;
 let clockEl; let labelEl; let announceEl; let doneBtn;
 let endAt = 0;
+let duration = 0;
 let interval = null;
 let finished = false;
 let audioCtx = null;
@@ -25,6 +26,7 @@ export function initTimer(container) {
   doneBtn = h('button', { type: 'button', class: 'btn ghost small', onClick: stopRest }, 'Pular');
   root.append(
     icon('timer'),
+    h('span', { class: 'timer-progress', 'aria-hidden': 'true' }),
     clockEl,
     labelEl,
     h('button', { type: 'button', class: 'btn ghost small', 'aria-label': 'Menos 15 segundos', onClick: () => adjust(-15) }, '−15'),
@@ -39,6 +41,7 @@ export function startRest(seconds, text = 'Descanso') {
   if (!root) return;
   prepareAudio();
   finished = false;
+  duration = Math.max(1, seconds);
   endAt = Date.now() + seconds * 1000;
   labelEl.textContent = text;
   announceEl.textContent = '';
@@ -62,11 +65,13 @@ export function stopRest() {
 function adjust(delta) {
   if (finished) return;
   endAt += delta * 1000;
+  duration = Math.max(1, duration + delta);
   tick();
 }
 
 function tick() {
   const left = Math.ceil((endAt - Date.now()) / 1000);
+  root.style.setProperty('--timer-progress', `${Math.max(0, Math.min(100, (left / duration) * 100))}%`);
   if (left > 0) { clockEl.textContent = fmtClock(left); return; }
   if (finished) return;
   finished = true;

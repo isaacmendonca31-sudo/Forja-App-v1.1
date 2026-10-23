@@ -1,6 +1,6 @@
 {
   "name": "forja",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "private": true,
   "description": "FORJA — diário de treino (PWA offline-first) para hipertrofia.",
   "type": "module",
